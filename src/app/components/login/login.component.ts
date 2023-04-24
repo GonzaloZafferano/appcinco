@@ -8,7 +8,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario';
-
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -33,18 +33,28 @@ export class LoginComponent implements OnInit {
   mensajeError: string = '';
   mensajePass: string = '';
   mensajeEmail: string = '';
-  usuarios : Usuario [] = [];
-  ruta : string = "/resources/icon.png";
-  constructor(private loginService: LoginService, private router:Router) { }
+  usuarios: Usuario[] = [];
+  ruta: string = "/resources/icon.png";
+
+  constructor(private loginService: LoginService, private router: Router, public toastController: ToastController) { }
   ngOnInit() {
     this.usuarios.push(new Usuario('gonzalo@prueba.com', '123456'));
     this.usuarios.push(new Usuario('silas@prueba.com', '654321'));
-    this.usuarios.push(new Usuario('nico@prueba.com','111111'));
-   }
+    this.usuarios.push(new Usuario('nico@prueba.com', '111111'));
+  }
 
-  login() {   
+  async login() {
     let errorEnDatos = false;
     let emailValido = false;
+
+    const toast = await this.toastController.create({
+      message: 'Your settings have been saved.',
+      duration: 2000,
+      color: 'warning',
+      animated: true,
+      position: 'top'
+    });
+    toast.present();
 
     if (this.email == '') {
       errorEnDatos = true;
@@ -70,28 +80,42 @@ export class LoginComponent implements OnInit {
 
     if (!errorEnDatos && emailValido) {
       this.loginService.loguearUsuario(this.email, this.password)
-      .then(() => {
-        this.limpiarCampos();
-        this.router.navigate(['/home']);
+        .then(() => {
+          this.limpiarCampos();
+          this.router.navigate(['/home']);
 
-        //this.addNewItem(true);
-      }).catch(() => {
-        this.mensajeError = "Correo o contraseña inválidos.";
-      });
+          //this.addNewItem(true);
+        }).catch(() => {
+          this.mensajeError = "Correo o contraseña inválidos.";
+        });
     } else {
       this.mensajeError = 'Corrija los errores y vuelva a intentar.';
     }
   }
 
-  validadCampoVacio(item : IonInput) {  
-    if (item.type === "password" && item.value != '') 
-      this.mensajePass = '';    
+  validadCampoVacio(item: IonInput) {
+    let errorEnDatos = false;
 
-      if (item.type === "text" && item.value != '') 
-      this.mensajeEmail = '';    
+    if (item.type === "password") {
+      if (item.value != '')
+        this.mensajePass = '';
+      else
+        errorEnDatos = true;
+    }
+
+    if (item.type === "text") {
+      if (item.value != '')
+        this.mensajeEmail = '';
+      else
+        errorEnDatos = true;
+    }
+
+    if (this.mensajeEmail == '' && this.mensajePass == '') {
+      this.mensajeError = '';
+    }
   }
 
-  limpiarCampos(){
+  limpiarCampos() {
     this.email = '';
     this.password = '';
   }
@@ -108,18 +132,18 @@ export class LoginComponent implements OnInit {
     this.newItemEvent.emit(value);
   }
 
-  registrar(){  
+  registrar() {
     this.router.navigate(['/registro']);
   }
 
-  limpiarErrores(){
+  limpiarErrores() {
     this.mensajeEmail = '';
     this.mensajeError = '';
     this.mensajePass = '';
   }
-  
-  cargarUsuario(indice : number){
-    if(indice >= 0 && indice < this.usuarios.length){
+
+  cargarUsuario(indice: number) {
+    if (indice >= 0 && indice < this.usuarios.length) {
       this.limpiarErrores();
       let usuario = this.usuarios[indice];
       this.email = usuario.usuario;
