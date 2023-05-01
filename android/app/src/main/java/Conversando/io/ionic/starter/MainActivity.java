@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package Conversando.io.ionic.starter;
 
 import com.getcapacitor.BridgeActivity;
 

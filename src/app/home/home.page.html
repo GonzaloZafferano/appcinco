@@ -1,9 +1,38 @@
-<div *ngIf="(afAuth.user | async); else loguearUsuario">
+<div class="">
+  <!-- <div *ngIf="(afAuth.user | async); else loguearUsuario">
   <app-bienvenido></app-bienvenido>
 </div>
 <ng-template #loguearUsuario>
 
    <app-login></app-login>
 
-</ng-template>
+</ng-template> -->
+  <div style="height: 95vh; background-color: #e9a8e3;">
 
+    <ion-buttons class="d-flex" style="flex-direction:column; height: 100%;">
+      <ion-button expand=""  fill="" (click)="abrirSala4A()" class="button-custom text-dark">
+        <ion-title class="titulo">PPS-4A</ion-title>
+        <ion-icon class="" name="chatbubble-ellipses-outline" style="font-size: 5em;"></ion-icon>
+        <ion-icon class="" name="chatbubble-ellipses-outline" style="font-size: 3em;"></ion-icon>
+        <ion-icon class="" name="chatbubble-ellipses-outline" style="font-size: 2em;"></ion-icon>
+        <!--ES EL ICONO EL QUE TOMA EL TAMAÑO, no el titulo.-->
+        <!-- <ion-icon  class="" name="chatbubble-ellipses-outline" style="font-size: 5em; width: 50% !important;"></ion-icon> -->
+
+      </ion-button>
+      <ion-button color="" fill="" shape="" (click)="abrirSala4B()" class="button-custom text-dark">
+        <ion-icon class="" name="chatbubble-ellipses-outline" style="font-size: 5em;"></ion-icon>
+        <ion-icon class="" name="chatbubble-ellipses-outline" style="font-size: 3em;"></ion-icon>
+        <ion-icon class="" name="chatbubble-ellipses-outline" style="font-size: 2em;"></ion-icon>
+        <ion-title class="titulo">PPS-4B</ion-title>
+      </ion-button>
+    </ion-buttons>
+
+  </div>
+  <div style="background-color: #e9a8e3;">
+    <ion-buttons class="d-flex ion-justify-content-center">
+      <ion-button color="success" fill="solid" shape="round" class="logout" id="btn-logout" (click)="logout()">
+        <ion-title class="font-weight-bold text-light" style="font-size: 2em;">SALIR</ion-title>
+      </ion-button>
+    </ion-buttons>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { IonInput, IonicModule } from '@ionic/angular';
+import { IonInput, IonicModule, Platform } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Output, EventEmitter } from '@angular/core';
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Usuario } from 'src/app/models/usuario';
 import { ToastController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -36,25 +37,23 @@ export class LoginComponent implements OnInit {
   usuarios: Usuario[] = [];
   ruta: string = "/resources/icon.png";
 
-  constructor(private loginService: LoginService, private router: Router, public toastController: ToastController) { }
+  constructor(private loginService: LoginService, private router: Router, public toastController: ToastController,
+    public loadingController: LoadingController,
+    private platform: Platform ) { }
   ngOnInit() {
-    this.usuarios.push(new Usuario('gonzalo@prueba.com', '123456'));
-    this.usuarios.push(new Usuario('silas@prueba.com', '654321'));
-    this.usuarios.push(new Usuario('nico@prueba.com', '111111'));
+    this.usuarios.push(new Usuario('admin@admin.com', '111111'));
+    this.usuarios.push(new Usuario('invitado@invitado.com', '222222'));
+    this.usuarios.push(new Usuario('usuario@usuario.com', '333333'));
+    this.usuarios.push(new Usuario('tester@tester.com', '555555'));
+
+    this.platform.backButton.subscribeWithPriority(0, () => {
+      // Agrega la acción que deseas realizar cuando se presiona el botón de retroceso   
+    });
   }
 
   async login() {
     let errorEnDatos = false;
     let emailValido = false;
-
-    const toast = await this.toastController.create({
-      message: 'Your settings have been saved.',
-      duration: 2000,
-      color: 'warning',
-      animated: true,
-      position: 'top'
-    });
-    toast.present();
 
     if (this.email == '') {
       errorEnDatos = true;
@@ -79,15 +78,20 @@ export class LoginComponent implements OnInit {
         this.mensajePass = '';
 
     if (!errorEnDatos && emailValido) {
-      this.loginService.loguearUsuario(this.email, this.password)
-        .then(() => {
-          this.limpiarCampos();
-          this.router.navigate(['/home']);
+      const loading = await this.presentLoading();
 
-          //this.addNewItem(true);
-        }).catch(() => {
-          this.mensajeError = "Correo o contraseña inválidos.";
-        });
+      setTimeout(() => {
+        this.loginService.loguearUsuario(this.email, this.password)
+          .then(() => {
+            this.limpiarCampos();
+            this.router.navigate(['/home']);
+  
+            loading.dismiss();
+          }).catch(() => {
+            this.mensajeError = "Correo o contraseña inválidos.";
+            loading.dismiss();
+          });        
+      }, 2000);
     } else {
       this.mensajeError = 'Corrija los errores y vuelva a intentar.';
     }
@@ -149,5 +153,17 @@ export class LoginComponent implements OnInit {
       this.email = usuario.usuario;
       this.password = usuario.password;
     }
+  }
+
+  async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Obteniendo datos',
+      spinner: 'lines',
+      translucent: true,
+      cssClass: 'custom-class'
+    });
+
+    await loading.present();
+    return loading;
   }
 }

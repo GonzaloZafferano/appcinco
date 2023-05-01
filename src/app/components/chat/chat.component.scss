@@ -1,0 +1,100 @@
+.custom-item {
+    font-size: 1.2em;
+    //--background: #0aa3b5; //FONDO DEL ION-ITEM
+    // min-height: 20vh !important;
+    //  width: 100vw;
+    margin: 5px;
+
+    height: auto !important;
+}
+
+* {
+    font-weight: bold;
+    color: #4e2665;
+}
+
+.fondo-contenido {
+    --background: #e9a8e3;
+}
+
+.mensaje-ajeno {
+    width: 70vw;
+    border-end-end-radius: 40px;
+    border-end-start-radius: 40px;
+    border-top-right-radius: 40px;
+    --background: #fa9baa !important;
+}
+
+.mensaje-propio {
+    --background: #82c6a9;
+    margin-left: 27vw;
+    width: 70vw;
+    border-end-end-radius: 40px;
+    border-end-start-radius: 40px;
+    border-top-left-radius: 40px;
+}
+
+ion-item div {
+    //background-color: red;
+    height: 20vh;
+}
+
+ion-content {
+    background: red;
+}
+
+span {
+    display: block;
+}
+
+ion-item {
+    //border-radius: 20px;    
+}
+
+//POR ALGUNA RAZON IMPACTA DIRECTO Y MEJOR EN EL <ion-item>
+.item {
+    // border-radius: 20px; //APLICA AL 
+}
+
+.contenido {
+
+    margin: 0px;
+    padding: 0px;
+    color: black;
+    margin: 5px;
+    border-radius: 20px; //APLICA AL 
+    height: auto !important;
+
+}
+
+.mensaje {
+    background-color: #E5D0E3;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: white;
+    border-radius: 30px;
+}
+
+.nuevoMensaje {
+    background-color: #95E3C3;
+    border-radius: 40px;
+}
+
+ion-button {
+    padding: 0px !important;
+}
+
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+  
+  .fadeIn {
+    opacity: 0;
+  }
+  
+  .fadeIn.animated {
+    opacity: 1;
+    animation-name: fadeIn;
+  }

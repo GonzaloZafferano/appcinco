@@ -17,6 +17,14 @@ export const routes: Routes = [
     loadComponent: () => import('./components/login/login.component').then((m) => m.LoginComponent),
   },
   {
+    path: 'sala4a',
+    loadComponent: () => import('./pages/sala4a/sala4a.component').then((m) => m.Sala4aComponent),
+  },
+  {
+    path: 'sala4b',
+    loadComponent: () => import('./pages/sala4b/sala4b.component').then((m) => m.Sala4bComponent),
+  },
+  {
     path: 'splash',
     loadComponent: () => import('./splash/splash.page').then( m => m.SplashPage)
   },

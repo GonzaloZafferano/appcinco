@@ -1,0 +1,52 @@
+  <ion-fab style="right: 0; margin: 10px;">
+    <ion-button color="success" fill="solid" (click)="volverHome()"
+      style="width: 15vw; --border-radius: 60px !important; height: 50px;">
+      <ion-icon name="arrow-undo-sharp" style="font-size: 3em; width: 100%; text-align: center;"
+        color="primary"></ion-icon>
+      <!-- <ion-title style="font-size: 0.9em;">enviar</ion-title> -->
+    </ion-button>
+  </ion-fab>
+  <div style="height: 87vh;">
+    <ion-content #contenido class="fondo-contenido animated fadeIn" [scrollEvents]="false">
+      <div>
+        <div *ngFor="let chat of listaDeMensajes">
+          <ion-item class="custom-item"
+            [ngClass]="{'mensaje-ajeno': chat.usuario != usuarioLogueado, 'mensaje-propio': chat.usuario == usuarioLogueado}">
+            <div class="contenido">
+              <span *ngIf="chat.usuario != usuarioLogueado">{{chat.usuario}}</span>
+              <span>{{obtenerFechaString(chat)}}</span>
+              <p>
+                {{chat.mensaje}}
+              </p>
+            </div>
+          </ion-item>
+        </div>
+      </div>
+    </ion-content>
+  </div>
+
+  <ion-footer style="height: 13vh; background-color: #e9a8e3; padding: 10px;">
+    <div style="position: fixed; bottom: 3px; height: 75px; right: 5px; left: 5px; background-color: #e9a8e3;">
+      <div class="nuevoMensaje d-flex ion-align-items-center p-2 m-0">
+        <ion-input [(ngModel)]="mensajeEscrito" color="success" class="mensaje"
+          style="width: 95vw; margin-left: 5px; margin-right: 5px;" type="text" maxlength="23"></ion-input>
+        <!-- <ion-input label="Ingrese un mensaje" label-placement="floating" fill="outline" id="mensaje" style="width: 90vw;" type="text"  [counter]="true" maxlength="23" [counterFormatter]="cantidadCaracteresEscritos"></ion-input> -->
+        <ion-button [disabled]="mensajeEscrito == ''" color="success" (click)="enviarMensaje()" fill="solid"
+          style="width: 15vw; --border-radius: 60px !important; height: 50px;">
+          <ion-icon [hidden]="guardando" name="arrow-redo-sharp"
+            style="font-size: 3em; width: 100%; text-align: center;" color="tertiary"></ion-icon>
+          <ion-spinner [hidden]="!guardando" name="lines"
+            style="font-size: 1em; width: 100%; text-align: center; color: rgb(255, 255, 255); margin: 5px;"></ion-spinner>
+          <!-- <ion-title style="font-size: 0.9em;">enviar</ion-title> -->
+        </ion-button>
+
+        <!-- <ion-button style="width: 25vw; " color="success" fill="solid" type="ion-button" shape="round">
+      <ion-title class="font-login-custom text-light">enviar</ion-title> 
+      <ion-icon size="" style="font-size: 3em;" class="text-light" slot="end" name="arrow-redo-sharp"></ion-icon>
+    </ion-button> -->
+      </div>
+
+      <!-- <ion-fab>
+</ion-fab> -->
+    </div>
+  </ion-footer>
