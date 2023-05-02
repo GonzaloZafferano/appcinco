@@ -76,7 +76,7 @@ export class ChatComponent implements OnInit {
   obtenerFechaString(chat: any) {
     //OBTENGO LA FECHA A PARTIR DE (SEGUNDOS TOTALES *1000)
     let fecha = new Date(chat.fecha.seconds * 1000);
-    let dia = fecha.getDate() + 1;
+    let dia = fecha.getDate();
     let mes = fecha.getMonth() + 1;
     let anio = fecha.getFullYear();
     let hora = fecha.getHours();
