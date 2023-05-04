@@ -27,6 +27,8 @@ export class ChatComponent implements OnInit {
   constructor(private auth: AngularFireAuth, public router: Router, public loadingController: LoadingController, private firestore: FirestoreService) {
   }
 
+  aula : string = '';
+
   async ngOnInit() {
     const loading = await this.presentChats();
 
@@ -34,6 +36,7 @@ export class ChatComponent implements OnInit {
       this.usuarioLogueado = x?.email ? x.email : '';
     });
 
+    this.aula = this.sala == 0 ?'Sala PPS 4A' : 'Sala PPS 4B';
     this.suscripcion = this.firestore.obtenerMensajesObservable(this.sala).subscribe((data) => {
       this.listaDeMensajes = data;
       setTimeout(() => {
