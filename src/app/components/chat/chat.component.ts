@@ -8,7 +8,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import { FirestoreService } from 'src/app/services/firestore.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ToastController } from '@ionic/angular';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -24,29 +24,33 @@ export class ChatComponent implements OnInit {
   guardando: boolean = false;
   @ViewChild('contenido', { static: true }) contenido: IonContent | undefined;
   suscripcion: any;
-  constructor(private auth: AngularFireAuth, public router: Router, public loadingController: LoadingController, private firestore: FirestoreService) {
+  constructor(public toastController: ToastController, private auth: AngularFireAuth, public router: Router, public loadingController: LoadingController, private firestore: FirestoreService) {
   }
 
-  aula : string = '';
+  aula: string = '';
 
   async ngOnInit() {
     const loading = await this.presentChats();
+    this.aula = this.sala == 0 ? 'Sala PPS 4A' : 'Sala PPS 4B';
 
-    await this.auth.currentUser.then((x) => {
-      this.usuarioLogueado = x?.email ? x.email : '';
-    });
+    setTimeout(async () => {
+      await this.auth.currentUser.then((x) => {
+        this.usuarioLogueado = x?.email ? x.email : '';
+      });
 
-    this.aula = this.sala == 0 ?'Sala PPS 4A' : 'Sala PPS 4B';
-    this.suscripcion = this.firestore.obtenerMensajesObservable(this.sala).subscribe((data) => {
-      this.listaDeMensajes = data;
-      setTimeout(() => {
-        this.contenido?.scrollToBottom(500);
-      }, 1000);
-    });
+
+      this.suscripcion = this.firestore.obtenerMensajesObservable(this.sala).subscribe((data) => {
+        this.listaDeMensajes = data;
+        setTimeout(() => {
+          this.contenido?.scrollToBottom(500);
+        }, 1000);
+      });
+
+    }, 1000);
 
     setTimeout(() => {
       loading.dismiss();
-    }, 1000);
+    }, 2000);
   }
 
   ngOnDestroy() {
@@ -73,6 +77,7 @@ export class ChatComponent implements OnInit {
   }
 
   volverHome() {
+   // this.presentToast();
     this.router.navigate(['home']);
   }
 
@@ -101,5 +106,23 @@ export class ChatComponent implements OnInit {
 
     await loading.present();
     return loading;
+  }
+
+  async contarLetras(evento: any) {
+
+    if (evento.detail.value.length == 23) {
+
+      await this.presentToast();
+    }
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Has alcanzado el límite de 23 caracteres.',
+      duration: 3500,
+      cssClass : 'toast-css',
+      position : 'top'
+    });
+    toast.present();
   }
 }

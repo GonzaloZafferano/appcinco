@@ -1,10 +1,10 @@
   <ion-fab>
-    <ion-label class="sala">
+    <ion-label [ngClass]="{'sala-label' : sala == 0}" class="sala">
      {{aula}}
     </ion-label>
   </ion-fab>
   <ion-fab style="right: 0; margin: 10px;">
-    <ion-button color="success" fill="solid" (click)="volverHome()"
+    <ion-button [ngClass]="{'sala-a' : sala == 0, 'sala-b' : sala != 0}" class="sala-b"  fill="solid" (click)="volverHome()"
       style="width: 15vw; --border-radius: 60px !important; height: 50px;">
       <ion-icon name="arrow-undo-sharp" style="font-size: 3em; width: 100%; text-align: center;"
         color="primary"></ion-icon>
@@ -12,7 +12,7 @@
     </ion-button>
   </ion-fab>
   <div style="height: 87vh;">
-    <ion-content #contenido class="fondo-contenido animated fadeIn" [scrollEvents]="false">
+    <ion-content #contenido   [ngClass]="{'fondo-sala-a' : sala == 0, 'fondo-sala-b' : sala != 0}"            class="fondo-contenido animated fadeIn" [scrollEvents]="false">
       <div>
         <div *ngFor="let chat of listaDeMensajes">
           <ion-item class="custom-item"
@@ -30,13 +30,13 @@
     </ion-content>
   </div>
 
-  <ion-footer style="height: 13vh; background-color: #e9a8e3; padding: 10px;">
-    <div style="position: fixed; bottom: 3px; height: 75px; right: 5px; left: 5px; background-color: #e9a8e3;">
-      <div class="nuevoMensaje d-flex ion-align-items-center p-2 m-0">
-        <ion-input [(ngModel)]="mensajeEscrito" color="success" class="mensaje"
+  <ion-footer style="height: 13vh; background-color: #e9a8e3; padding: 10px;" class="" [ngClass]="{'fondo-sala-a' : sala == 0, 'fondo-sala-b' : sala != 0}"  >
+    <div style="position: fixed; bottom: 3px; height: 75px; right: 5px; left: 5px;" [ngClass]="{'fondo-sala-a' : sala == 0, 'fondo-sala-b' : sala != 0}">
+      <div [ngClass]="{'nuevoMensaje-a' : sala == 0, 'nuevoMensaje-b' : sala != 0}" class="d-flex ion-align-items-center p-2 m-0">
+        <ion-input (ionInput)="contarLetras($event)" [(ngModel)]="mensajeEscrito"  [ngClass]="{'sala-a' : sala == 0, 'sala-b' : sala != 0}"   class="mensaje"
           style="width: 95vw; margin-left: 5px; margin-right: 5px;" type="text" maxlength="23"></ion-input>
         <!-- <ion-input label="Ingrese un mensaje" label-placement="floating" fill="outline" id="mensaje" style="width: 90vw;" type="text"  [counter]="true" maxlength="23" [counterFormatter]="cantidadCaracteresEscritos"></ion-input> -->
-        <ion-button [disabled]="mensajeEscrito == ''" color="success" (click)="enviarMensaje()" fill="solid"
+        <ion-button [ngClass]="{'sala-a' : sala == 0, 'sala-b' : sala != 0}" [disabled]="mensajeEscrito == ''"  (click)="enviarMensaje()" fill="solid"
           style="width: 15vw; --border-radius: 60px !important; height: 50px;">
           <ion-icon [hidden]="guardando" name="arrow-redo-sharp"
             style="font-size: 3em; width: 100%; text-align: center;" color="tertiary"></ion-icon>

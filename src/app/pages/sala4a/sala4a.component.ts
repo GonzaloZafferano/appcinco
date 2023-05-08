@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonicModule, LoadingController } from '@ionic/angular';
 import { ChatComponent } from 'src/app/components/chat/chat.component';
 import { FirestoreService } from 'src/app/services/firestore.service';
@@ -14,7 +14,9 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 export class Sala4aComponent  implements OnInit {
   // suscripcion: any;
   // listaMensajes: any[] = [];
+  //@Input() usuarioLogueado: string = '';
 
+  
   constructor(private firestore: FirestoreService,public loadingController: LoadingController
     ) { }
 
